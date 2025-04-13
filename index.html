@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kevin Kolb – Projects & Experiments</title>
   <meta name="description" content="Explore the projects of Kevin Kolb: interactive games, tech tools, and New Orleans storytelling." />
-  
+
   <!-- Saints Favicon -->
   <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5c/New_Orleans_Saints_logo.svg" type="image/svg+xml" />
 
@@ -17,8 +17,8 @@
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
-      background: #ffffff; /* Saints white */
-      color: #0a0a0a;       /* Saints black */
+      background: #ffffff;
+      color: #0a0a0a;
       line-height: 1.6;
     }
     header {
@@ -74,7 +74,7 @@
       color: #888;
     }
 
-    /* WHO DAT Easter Egg styling */
+    /* WHO DAT Easter Egg Styling */
     #whodat {
       display: none;
       text-align: center;
@@ -124,7 +124,7 @@
       <p>Reach me at <a href="mailto:kevinmkolb@gmail.com">kevinmkolb@gmail.com</a> or find me on <a href="https://github.com/KevinKolb" target="_blank">GitHub</a>.</p>
     </section>
 
-    <!-- WHO DAT hidden div -->
+    <!-- WHO DAT message -->
     <div id="whodat">WHO DAT?! 🖤⚜️</div>
   </main>
 
@@ -132,15 +132,33 @@
     <p>&copy; 2025 Kevin Kolb · Built with ⚜️ in New Orleans</p>
   </footer>
 
-  <!-- Audio element -->
+  <!-- Invisible click zone -->
+  <div id="clickzone" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1000;"></div>
+
+  <!-- Audio -->
   <audio id="whodat-audio" preload="auto">
     <source src="https://actions.google.com/sounds/v1/crowds/football_crowd_cheer.ogg" type="audio/ogg">
   </audio>
 
-  <!-- WHO DAT Easter egg script -->
+  <!-- WHO DAT Easter Egg Logic -->
   <script>
     const secretCode = ['w', 'h', 'o', 'd', 'a', 't'];
     let buffer = [];
+    let audioReady = false;
+
+    const audio = document.getElementById('whodat-audio');
+    const clickzone = document.getElementById('clickzone');
+
+    clickzone.addEventListener('click', () => {
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audioReady = true;
+        clickzone.remove(); // remove the invisible zone
+      }).catch(err => {
+        console.warn("Audio enable failed:", err.message);
+      });
+    });
 
     window.addEventListener('keydown', (event) => {
       const key = event.key.toLowerCase();
@@ -148,13 +166,13 @@
       if (buffer.length > secretCode.length) buffer.shift();
 
       if (buffer.join('') === secretCode.join('')) {
-        const text = document.getElementById('whodat');
-        const audio = document.getElementById('whodat-audio');
-        if (text) text.style.display = 'block';
-        if (audio) {
+        const message = document.getElementById('whodat');
+        if (message) message.style.display = 'block';
+
+        if (audioReady && audio) {
           audio.currentTime = 0;
           audio.play().catch(err => {
-            console.warn("Autoplay failed:", err.message);
+            console.warn("Audio play failed:", err.message);
           });
         }
       }
