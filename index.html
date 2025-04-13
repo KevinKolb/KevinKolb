@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kevin Kolb – Projects & Experiments</title>
   <meta name="description" content="Explore the projects of Kevin Kolb: interactive games, tech tools, and New Orleans storytelling." />
+  
+  <!-- Saints Favicon -->
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5c/New_Orleans_Saints_logo.svg" type="image/svg+xml" />
+
+  <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -33,9 +39,13 @@
       margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
+      color: #0a0a0a;
+      background-color: #d3bc8d;
+      padding: 0.25rem 0.5rem;
+      border-radius: 5px;
     }
     main {
       padding: 2rem;
@@ -49,12 +59,10 @@
       color: #0a0a0a;
       margin-bottom: 0.5rem;
     }
-    ul li strong {
-      color: #d3bc8d;
-    }
     a {
       color: #0a0a0a;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
     a:hover {
       color: #d3bc8d;
@@ -64,7 +72,22 @@
       padding: 2rem;
       font-size: 0.9rem;
       color: #888;
-      background-color: #f4f4f4;
+    }
+
+    /* Who Dat Easter Egg Reveal */
+    #whodat {
+      display: none;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #d3bc8d;
+      margin-top: 3rem;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -84,7 +107,7 @@
       <h2>Featured Projects</h2>
       <ul>
         <li><strong>The Murder Atlas</strong> – An evolving platform for mystery and location-based narrative experiences.</li>
-        <li><strong>The Completely Unauthorized NY Times Spelling Bee Toolbox</a></strong> – A daily HTML+XML tool for Spelling Bee fans.</li>
+        <li><strong>The Completely Unauthorized NY Times Spelling Bee Toolbox</strong> – A daily HTML+XML tool for Spelling Bee fans.</li>
         <li><strong>Oswald’s Diary</strong> – An SMS-based scavenger hunt tracing Lee Harvey Oswald’s path through New Orleans.</li>
         <li><strong>This Must Be The Place: New Orleans Edition</strong> – A rock & roll immersive walking tour with games, band lore, and musical ghost stories.</li>
         <li><strong>Local Bar Tees</strong> – A t-shirt shop supporting bars, bands, and the beautifully local.</li>
@@ -100,10 +123,42 @@
       <h2>Contact</h2>
       <p>Reach me at <a href="mailto:kevinmkolb@gmail.com">kevinmkolb@gmail.com</a> or find me on <a href="https://github.com/KevinKolb" target="_blank">GitHub</a>.</p>
     </section>
+
+    <div id="whodat">WHO DAT?! 🖤⚜️</div>
   </main>
 
   <footer>
     <p>&copy; 2025 Kevin Kolb · Built with ⚜️ in New Orleans</p>
   </footer>
+
+  <!-- Audio Element (hidden) -->
+  <audio id="whodat-audio" preload="auto">
+    <source src="https://www.myinstants.com/media/sounds/who-dat.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Who Dat Easter Egg Script -->
+  <script>
+    const secretCode = ['w', 'h', 'o', 'd', 'a', 't'];
+    let buffer = [];
+
+    window.addEventListener('keydown', (e) => {
+      buffer.push(e.key.toLowerCase());
+      if (buffer.length > secretCode.length) {
+        buffer.shift();
+      }
+
+      if (buffer.join('') === secretCode.join('')) {
+        const msg = document.getElementById('whodat');
+        const audio = document.getElementById('whodat-audio');
+
+        msg.style.display = 'block';
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Autoplay blocked or error:", err);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
