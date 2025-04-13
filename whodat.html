@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Who Dat Trigger Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+
+    #whodat {
+      display: none;
+      font-size: 2rem;
+      font-weight: bold;
+      color: goldenrod;
+      margin-top: 2rem;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Type “whodat” anywhere to trigger the chant</h1>
+  <div id="whodat">WHO DAT?! 🖤⚜️</div>
+
+  <audio id="whodat-audio" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/crowds/football_crowd_cheer.ogg" type="audio/ogg">
+  </audio>
+
+  <script>
+    const secretCode = ['w', 'h', 'o', 'd', 'a', 't'];
+    let buffer = [];
+
+    window.addEventListener('keydown', (event) => {
+      const key = event.key.toLowerCase();
+      buffer.push(key);
+
+      // Keep only the last N entries
+      if (buffer.length > secretCode.length) {
+        buffer.shift();
+      }
+
+      if (buffer.join('') === secretCode.join('')) {
+        const text = document.getElementById('whodat');
+        const audio = document.getElementById('whodat-audio');
+
+        // Show the message
+        text.style.display = 'block';
+
+        // Try to play the audio
+        audio.currentTime = 0;
+        audio.play().catch((err) => {
+          console.warn("Autoplay failed:", err.message);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
