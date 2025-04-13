@@ -17,8 +17,8 @@
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
-      background: #ffffff;
-      color: #0a0a0a;
+      background: #ffffff; /* Saints white */
+      color: #0a0a0a;       /* Saints black */
       line-height: 1.6;
     }
     header {
@@ -39,7 +39,7 @@
       margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
-      transition: color 0.3s ease;
+      transition: color 0.3s ease, background-color 0.3s ease;
     }
     nav a:hover {
       color: #0a0a0a;
@@ -74,7 +74,7 @@
       color: #888;
     }
 
-    /* Who Dat Easter Egg Reveal */
+    /* WHO DAT Easter Egg styling */
     #whodat {
       display: none;
       text-align: center;
@@ -124,6 +124,7 @@
       <p>Reach me at <a href="mailto:kevinmkolb@gmail.com">kevinmkolb@gmail.com</a> or find me on <a href="https://github.com/KevinKolb" target="_blank">GitHub</a>.</p>
     </section>
 
+    <!-- WHO DAT hidden div -->
     <div id="whodat">WHO DAT?! 🖤⚜️</div>
   </main>
 
@@ -131,32 +132,31 @@
     <p>&copy; 2025 Kevin Kolb · Built with ⚜️ in New Orleans</p>
   </footer>
 
-  <!-- Audio Element (hidden) -->
+  <!-- Audio element -->
   <audio id="whodat-audio" preload="auto">
-    <source src="https://www.myinstants.com/media/sounds/who-dat.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
+    <source src="https://actions.google.com/sounds/v1/crowds/football_crowd_cheer.ogg" type="audio/ogg">
   </audio>
 
-  <!-- Who Dat Easter Egg Script -->
+  <!-- WHO DAT Easter egg script -->
   <script>
     const secretCode = ['w', 'h', 'o', 'd', 'a', 't'];
     let buffer = [];
 
-    window.addEventListener('keydown', (e) => {
-      buffer.push(e.key.toLowerCase());
-      if (buffer.length > secretCode.length) {
-        buffer.shift();
-      }
+    window.addEventListener('keydown', (event) => {
+      const key = event.key.toLowerCase();
+      buffer.push(key);
+      if (buffer.length > secretCode.length) buffer.shift();
 
       if (buffer.join('') === secretCode.join('')) {
-        const msg = document.getElementById('whodat');
+        const text = document.getElementById('whodat');
         const audio = document.getElementById('whodat-audio');
-
-        msg.style.display = 'block';
-        audio.currentTime = 0;
-        audio.play().catch(err => {
-          console.log("Autoplay blocked or error:", err);
-        });
+        if (text) text.style.display = 'block';
+        if (audio) {
+          audio.currentTime = 0;
+          audio.play().catch(err => {
+            console.warn("Autoplay failed:", err.message);
+          });
+        }
       }
     });
   </script>
